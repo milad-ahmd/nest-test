@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc
+  namespace: stage
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 3000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: stage
+  labels:
+    app: backend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      affinity: {}
+      containers:
+      - image: gitlab.testprojects.ir:4567/root/colife-backend:__CI_COMMIT_SHORT_SHA__
+        imagePullPolicy: Always
+        name: container-0
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        env:
+        - name: DATABASE_URL
+          value: 'mongodb://10.43.168.182:27017/colife'
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: gitlab
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

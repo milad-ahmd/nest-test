@@ -1,0 +1,23 @@
+{
+    "markdown.styles": [
+        "docs/src/style.css"
+    ],
+    "rest-client.environmentVariables": {
+        "$shared": {
+            // "version": "v1",
+            // "prodToken": "foo",
+            // "nonProdToken": "bar"
+        },
+        "local": {
+            "version": "v2",
+            "host": "127.0.1.1:3000",
+            // "token": "{{$shared nonProdToken}}",
+            // "secretKey": "devSecret"
+        },
+        "production": {
+            // "host": "example.com",
+            // "token": "{{$shared prodToken}}",
+            // "secretKey" : "prodSecret"
+        }
+    }
+}

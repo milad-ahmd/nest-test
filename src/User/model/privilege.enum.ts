@@ -1,0 +1,17 @@
+export enum Privilege {
+  ADMISSION = 'admission',
+  USER = 'user',
+  COMPANIES = 'companies',
+  TEST = 'test',
+  SAMPLE = 'sample',
+  METHOD = 'method',
+  CONTACTS = 'contacts',
+  PERSONS = 'persons',
+  DOCTORS = 'doctors',
+  DENTISTS = 'dentists',
+  ROLE = 'role',
+  PERSONNEL = 'personnel',
+  CONTAINER = 'container',
+  GROUPING = 'grouping',
+  EXPERTISE = 'expertise',
+}

@@ -1,0 +1,137 @@
+### createPerson
+POST http://{{host}}/person3/createPerson
+Content-Type: application/json
+
+{
+    "entityName": "doctors",
+    "name": "ali",
+    "family": "gholi",
+    "idCardNum": 454342343,
+    "gender": "male",
+    "employmentStartDate": 45345435435,
+    "birthDate": 32432432,
+    "expertiseId": "61c728d07eb56ba12c0fff16"
+}
+
+### readPerson
+Get http://{{host}}/person3/_id/61c0ec649834b8b8fca82d0c
+
+### list: to get a list of some entity
+POST http://{{host}}/person3/list
+Content-Type: application/json
+
+{
+    "mode": "all&count",
+    "limit": 1,
+    "page": 1,
+    "entityName": "doctors"
+}
+
+
+### groupList
+POST http://{{host}}/person3/groupList
+Content-Type: application/json
+
+{
+    "entityName": "doctors",
+    "groupingKey": "name"
+}
+### updatePerson
+Patch http://{{host}}/person3/updatePerson
+Content-Type: application/json
+
+{
+    "_id": "61c5f0a367623bb9b24803c0",
+    "tels": ["1000", "2000"],
+    "mail": "a@b.c",
+    "fatherName": "mehrdad",
+    "motherName": "helen",
+    "countryOfBirth": "iran",
+    "cityOfBirth": "tehran",
+    "citizenshipNumber": 22,
+    "job": "clinicalPhysician"
+}
+
+### delPerson
+Delete http://{{host}}/person3/delPerson
+Content-Type: application/json
+
+{
+    "_id": "61c5f0a267623bb9b24803b6"
+}
+
+### delPersons
+Delete http://{{host}}/person3/delPersons
+Content-Type: application/json
+
+{
+    "listOfIds": [
+        "61c5f36bff8470a1ec0ea498"
+    ]
+}
+
+### search
+POST http://{{host}}/person3/search
+Content-Type: application/json
+
+{
+    "keys": [
+        "name",
+        "family"
+    ],
+    "searchText": "k",
+    "entityName": "doctors"
+}
+### searchWithConds
+POST http://{{host}}/person3/searchWithConds
+Content-Type: application/json
+
+{
+    "limit": 10,
+    "page": 1,
+    "andKeys": [
+        ["cityOfBirth", "california", "="],
+        ["countryOfBirth", "usa", "="]
+    ],
+    "entityName": "doctors"
+}
+
+### create expertise
+POST http://{{host}}/expertise
+Content-Type: application/json
+
+{
+    "name": "my expertise"
+}
+
+### get all expertises
+Get http://{{host}}/expertise
+
+### get an expertise by id
+Get http://{{host}}/expertise/61c6ff0be9b848f08a79259c
+
+### update an expertise
+Put http://{{host}}/expertise/61c6ff0be9b848f08a79259c
+Content-Type: application/json
+
+{
+    "name": "updated expertise name"
+}
+### delete an expertise
+Delete http://{{host}}/expertise/61c6ff0be9b848f08a79259c
+
+### get cities:
+POST http://{{host}}/person/getCities
+Content-Type: application/json
+
+{
+    "country": "iran"
+}
+
+### GET CITIES FROM MAIN API
+POST https://countriesnow.space/api/v0.1/countries/cities
+Content-Type: application/json
+
+{
+    "country": "iran"
+}

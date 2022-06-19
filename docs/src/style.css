@@ -1,0 +1,45 @@
+body {
+    background-color: black;
+    color: whitesmoke;
+}
+h1 {
+    font-size: 2rem;
+}
+h2 {
+    font-size: 1.8rem;
+}
+h3 {
+    font-size: 1.52rem;
+}
+h4 {
+    font-size: 1.35rem;
+}
+h5 {
+    font-size: 1.3rem;
+}
+h6 {
+    font-size: 1.15rem;
+}
+h1,h2,h3,h4,h5,h6 {
+    font-weight: bold;
+}
+a {
+    color: skyblue;
+}
+table {
+    border: 1px solid #999999;
+}
+code {
+    border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    -webkit-border-radius: 5px; 
+    border: 1px solid #BCBEC0;
+    padding: 2px;
+    font:12px Monaco,Consolas,"Andale  Mono","DejaVu Sans Mono",monospace
+}
+.highlight {
+    background-color: yellow;
+    color: black;
+    padding: 1px;
+    border-radius: 2.5px;
+}

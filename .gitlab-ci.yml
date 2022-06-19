@@ -1,0 +1,75 @@
+stages:
+  - fetch-dependencies
+  - build
+  - deploy
+
+.build_template: &build
+  stage: build
+  cache:
+    policy: pull-push
+    key: 'packages'
+    paths:
+      - .yarn-cache
+      - node_modules
+  image: docker:latest
+  services:
+    - docker:18-dind
+  script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+    - docker image build -t ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA} .
+    - docker image push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}
+
+fetch-dependencies:
+  stage: fetch-dependencies
+  only:
+    changes:
+      - Dockerfile
+      - package.json
+      - yarn.lock
+  cache:
+    policy: push
+    key: 'packages'
+    paths:
+      - .yarn-cache
+      - node_modules
+  image: node:alpine
+  script:
+    - yarn install --non-interactive --cache-folder .yarn-cache
+
+build:prod:
+  <<: *build
+  only:
+    - main
+
+deploy:prod:
+ stage: deploy
+ only:
+   - main
+ environment:
+   name: cluster/prod
+ image: roffe/kubectl
+ script:
+   - find .k8s -name '*.yaml' -exec sed -i -e "s,__CI_COMMIT_SHORT_SHA__,${CI_COMMIT_SHORT_SHA},g" {} +
+   - kubectl --kubeconfig=${KUBECONFIG} apply -f .k8s/deploy.yaml
+   - kubectl --kubeconfig=${KUBECONFIG} apply -f .k8s/ingress.yaml
+   - kubectl --kubeconfig=${KUBECONFIG} get all -n stage
+build:stage:
+  <<: *build
+  only:
+    - develop
+
+deploy:stage:
+ stage: deploy
+ only:
+   - develop
+ environment:
+   name: cluster/prod
+ image: roffe/kubectl
+ script:
+   - find .k8s -name '*.yaml' -exec sed -i -e "s,__CI_COMMIT_SHORT_SHA__,${CI_COMMIT_SHORT_SHA},g" {} +
+   - kubectl --kubeconfig=${KUBECONFIG} apply -f .k8s/deploy-dev.yaml
+   - kubectl --kubeconfig=${KUBECONFIG} apply -f .k8s/ingress-dev.yaml
+   - kubectl --kubeconfig=${KUBECONFIG} get all -n stage
+
+
+
